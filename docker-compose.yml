@@ -1,0 +1,25 @@
+services:
+  psql-db:
+    image: postgres
+    container_name: PostgresMoneta
+    restart: always
+    environment:
+      - POSTGRES_USER=Lukas
+      - POSTGRES_PASSWORD=Nevrela
+      - POSTGRES_DB=MonetaDB
+    ports:
+      - '5432:5432'
+
+  monetajavacasestudytestproject:
+    container_name: monetaJavaCaseStudyTestProject
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://psql-db:5432/MonetaDB
+      - SPRING_DATASOURCE_USERNAME=Lukas
+      - SPRING_DATASOURCE_PASSWORD=Nevrela
+    depends_on:
+      - psql-db
